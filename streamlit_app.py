@@ -8,38 +8,18 @@ import streamlit.components.v1 as components
 def main():
 
     st.set_page_config(layout="wide", initial_sidebar_state='expanded')
-    github = """
-    <a href="https://github.com/mnobeidat13", target="_blank">
-      <img src="https://pbs.twimg.com/profile_images/1414990564408262661/r6YemvF9_400x400.jpg" alt="HTML tutorial" style="width:50px;height:50px;">
-
-    </a>
-    """
-
-    kaggle = """
-    <a href="https://www.kaggle.com/mohammedobeidat", target="_blank">
-      <img src="https://miro.medium.com/max/3200/1*K5NPQiLmq30qmkySiVb5JQ.jpeg" alt="HTML tutorial" style="width:100px;height:50px;">
-
-    </a>
-    """
-
-    linkedin = """
-    <a href="https://www.linkedin.com/in/mnobeidat/", target="_blank">
-      <img src="https://play-lh.googleusercontent.com/kMofEFLjobZy_bCuaiDogzBcUT-dz3BBbOrIEjJ-hqOabjK8ieuevGe6wlTD15QzOqw" alt="HTML tutorial" style="width:50px;height:50px;">
-
-    </a>
-    """
-    
         
-    sidebar_header = '''This is a demo to illustrate a recommender system that finds similar items to a given clothing article or recommend items for a customer using 4 different approaches:'''
+    sidebar_header = '''This is a demo to illustrate a recommender system that finds similar items to a given clothing article or recommend items for a customer using 2 different approaches and visualize the insights of this dataset'''
     
     page_options = ["Find similar items",
-                    "Customer Recommendations",]
+                    "Customer Recommendations",
+                    "Visualization",]
     
     st.sidebar.info(sidebar_header)
 
 
     
-    page_selection = st.sidebar.radio("Try", page_options)
+    page_selection = st.sidebar.radio("Options:", page_options)
     articles_df = pd.read_csv('articles.csv')
     
     models = ['Similar items based on image embeddings', 
@@ -81,7 +61,7 @@ def main():
 
             with st.container():     
                 for i, model, image_set, score_set, model_desc, detail_desc_set, features_set, rcmnds_set in zip(range(5), models, images, scores, model_descs, detail_descs, features, rcmnds):
-                    container = st.expander(model, expanded = model == 'Similar items based on image embeddings' or model == 'Similar items based on text embeddings')
+                    container = st.expander(model, expanded = model == 'Similar items based on image embeddings' )
                     with container:
                         cols = st.columns(7)
                         cols[0].write('###### Similarity Score')
@@ -90,11 +70,6 @@ def main():
                             with col:
                                 st.caption('{}'.format(score))
                                 st.image(img, use_column_width=True)
-                                if model == 'Similar items based on text embeddings':
-                                    st.caption(detail_desc)
-                                    
-#########################################################################################
-#########################################################################################
 
     
 #########################################################################################
@@ -141,11 +116,12 @@ def main():
                             with col:
                                 st.caption('{}'.format(score))
                                 st.image(img, use_column_width=True)
-                                
-
-#########################################################################################  
-#########################################################################################
-
+    if page_selection == "Visualization":
+        st.write(1234)
+        st.write(pd.DataFrame({
+            'first column': [1, 2, 3, 4],
+            'second column': [10, 20, 30, 40],
+        }))
     
 if __name__ == '__main__':
     main()
